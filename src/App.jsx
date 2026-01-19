@@ -14,11 +14,7 @@ const APP_CONFIG = {
     { key: "T3", label: "T3 : remise sur service adverse (long actif / court court ou flick si haut)" },
   ],
 
- const BRAND = {
-  appName: "Ping Video Analyse — V3 TEST_By_Sushizgood",
-  logoUrl: "/logo.png",
-  bgUrl: "/bg.png",
-}; 
+
 
   // MODIFIABLE (TON VOCABULAIRE)
   shotTypes: [
@@ -45,6 +41,12 @@ const APP_CONFIG = {
 
   pointOutcome: ["Gagné", "Perdu"],
 };
+
+ const BRAND = {
+  appName: "Ping Video Analyse — V3 TEST_By_Sushizgood",
+  logoUrl: "/logo.png",
+  bgUrl: "/bg.png",
+}; 
 
 export default function App() {
   const [tab, setTab] = useState("UPLOAD"); // UPLOAD | LIBRARY
@@ -99,7 +101,7 @@ async function signOut() {
  <div
   style={{
     minHeight: "100vh",
-    backgroundImage: "url('/bg.jpg')",
+    backgroundImage: `url('${BRAND.bgUrl}')`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
@@ -113,9 +115,11 @@ async function signOut() {
       fontFamily: "system-ui",
       background: "rgba(246,247,249,0.92)",
       minHeight: "100vh",
+      overflowX: "hidden",
     }}
   >
-      <h1 style={{ margin: "8px 0" }}>Ping Video Analyse — V3 TEST_By_Sushizgood</h1>
+      <h1 style={{ margin: "8px 0" }}>BRAND.Ping Analyzer — V1 By_Sushizgood</h1>
+      <img src={BRAND.logoUrl} alt="Logo" style={{ height: 48, marginBottom: 12 }} />
 
   <img
   src="/logo.png"
@@ -129,6 +133,15 @@ async function signOut() {
 <style>{`
   *, *::before, *::after { box-sizing: border-box; }
   input, select, textarea, button { font: inherit; }
+
+  /* ✅ empêche les champs de dépasser */
+  input, select, textarea { width: 100%; max-width: 100%; }
+
+  /* ✅ empêche images/vidéo de dépasser */
+  img, video { max-width: 100%; height: auto; display: block; }
+
+  /* ✅ évite la scrollbar horizontale */
+  body { margin: 0; overflow-x: hidden; }
 `}</style>
 
 <style>{`
@@ -1017,6 +1030,8 @@ function card() {
 function input() {
   return {
     width: "100%",
+    maxWidth: "100%",
+    display: "block",
     padding: "10px 12px",
     borderRadius: 10,
     border: "1px solid #ddd",
