@@ -33,10 +33,17 @@ const APP_CONFIG = {
 
   coachTags: [
     "Balle favorable non attaquée",
-    "Bon démarrage rotation",
-    "Passif alors que possible",
+    "Action passive",
     "Mauvaise transition RV→CD",
-    "Je recule après démarrage",
+    "Recule trop",
+    "Mauvais déplacement",
+    "Coup forcé",
+    "Mauvaise remise de service",
+    "Bon démarrage rotation",
+    "Bien servi",
+    "Bloc actif",
+    "Trop en régu",
+    
   ],
 
   pointOutcome: ["Gagné", "Perdu"],
