@@ -127,7 +127,7 @@ async function signOut() {
   );
 }
 
-function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {n,pm
+function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
   const [file, setFile] = useState(null);
 
   // MODIFIABLE: métadonnées futures
@@ -142,6 +142,7 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {n,pm
   async function handleUpload() {
     if (!file) return alert("Choisis une vidéo.");
     if (!title.trim()) return alert("Donne un titre.");
+    if (!session) return alert("Connexion Google obligatoire pour uploader.");
 
     setBusy(true);
     try {
@@ -231,6 +232,29 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {n,pm
           <input type="file" accept="video/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </div>
       </div>
+
+{/* ===== Auth upload only ===== */}
+<div style={{ marginTop: 10, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+  {session ? (
+    <>
+      <div style={{ fontSize: 13, opacity: 0.8 }}>
+        Connecté : <b>{session.user.email}</b>
+      </div>
+      <button onClick={onSignOut} style={btn(false)}>
+        Se déconnecter
+      </button>
+    </>
+  ) : (
+    <>
+      <div style={{ fontSize: 13, opacity: 0.8 }}>
+        Pour uploader, tu dois te connecter avec Google.
+      </div>
+      <button onClick={onSignIn} style={btn(true)}>
+        Se connecter (Google)
+      </button>
+    </>
+  )}
+</div>
 
       <button onClick={handleUpload} disabled={busy} style={{ ...btn(true), marginTop: 12 }}>
         {busy ? "Upload..." : "Uploader"}
