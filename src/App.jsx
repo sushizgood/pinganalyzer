@@ -17,7 +17,7 @@ const APP_CONFIG = {
  const BRAND = {
   appName: "Ping Video Analyse — V3 TEST_By_Sushizgood",
   logoUrl: "/logo.png",
-  bgUrl: "/bg.jpg",
+  bgUrl: "/bg.png",
 }; 
 
   // MODIFIABLE (TON VOCABULAIRE)
