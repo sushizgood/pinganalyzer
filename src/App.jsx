@@ -14,6 +14,12 @@ const APP_CONFIG = {
     { key: "T3", label: "T3 : remise sur service adverse (long actif / court court ou flick si haut)" },
   ],
 
+ const BRAND = {
+  appName: "Ping Video Analyse — V3 TEST_By_Sushizgood",
+  logoUrl: "/logo.png",
+  bgUrl: "/bg.jpg",
+}; 
+
   // MODIFIABLE (TON VOCABULAIRE)
   shotTypes: [
     "Service",
@@ -90,19 +96,40 @@ async function signOut() {
   }, []);
 
   return (
-    <div
+ <div
   style={{
-    fontFamily: "system-ui",
-    maxWidth: 1200,
-    margin: "0 auto",
-    padding: 16,
-    background: "#f6f7f9",
     minHeight: "100vh",
+    backgroundImage: "url('/bg.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
   }}
 >
+  <div
+    style={{
+      maxWidth: 1200,
+      margin: "0 auto",
+      padding: 16,
+      fontFamily: "system-ui",
+      background: "rgba(246,247,249,0.92)",
+      minHeight: "100vh",
+    }}
+  >
       <h1 style={{ margin: "8px 0" }}>Ping Video Analyse — V3 TEST_By_Sushizgood</h1>
 
+  <img
+  src="/logo.png"
+  alt="Logo"
+  style={{
+    height: 48,
+    marginBottom: 12,
+  }}
+/>    
 
+<style>{`
+  *, *::before, *::after { box-sizing: border-box; }
+  input, select, textarea, button { font: inherit; }
+`}</style>
 
 <style>{`
   .layout {
@@ -151,17 +178,17 @@ async function signOut() {
 
       )}
     </div>
+    </div>
   );
 }
 
 function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
   const [file, setFile] = useState(null);
 
-  // MODIFIABLE: métadonnées futures
   const [title, setTitle] = useState("");
   const [type, setType] = useState("EXERCICE"); // EXERCICE | MATCH
-  const [theme, setTheme] = useState("T1"); // si EXERCICE
-  const [setNumber, setSetNumber] = useState(1); // si MATCH
+  const [theme, setTheme] = useState("T1");
+  const [setNumber, setSetNumber] = useState(1);
   const [notes, setNotes] = useState("");
   const [recordedAt, setRecordedAt] = useState(() => new Date().toISOString().slice(0, 10));
   const [busy, setBusy] = useState(false);
@@ -177,13 +204,11 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
       const filename = `${crypto.randomUUID()}.${ext}`;
       const path = `${type.toLowerCase()}/${filename}`;
 
-      // 1) upload Storage
       const { error: upErr } = await supabase.storage
         .from(BUCKET)
         .upload(path, file, { upsert: false, contentType: file.type || "video/mp4" });
       if (upErr) throw upErr;
 
-      // 2) insert DB
       const payload = {
         title,
         type,
@@ -202,47 +227,52 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
       setNotes("");
       onUploaded?.();
     } catch (e) {
-      alert("Erreur upload: " + e.message);
+      alert("Erreur upload: " + (e?.message || e));
     } finally {
       setBusy(false);
     }
   }
 
+  const canUpload = !!session && !!file && !!title.trim() && !busy;
+
   return (
     <div style={card()}>
+      {/* CSS local pour rendre le formulaire responsive */}
+      <style>{`
+        .uploadGrid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+        @media (min-width: 760px) {
+          .uploadGrid { grid-template-columns: 1fr 1fr; }
+        }
+        .spanAll { grid-column: 1 / -1; }
+        .fileBox {
+          border: 1px dashed #cfcfcf;
+          border-radius: 12px;
+          padding: 12px;
+          background: #fafafa;
+        }
+      `}</style>
+
       <h2 style={{ marginTop: 0 }}>Déposer une vidéo</h2>
 
-      <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "1fr",
-    gap: 10,
-  }}
->
-  <style>{`
-    @media (min-width: 760px) {
-      .uploadGrid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-  `}</style>
-
-  <div className="uploadGrid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
-    {/* ... mets ici tous tes champs (Titre, Date, Type, Thème, Notes, Fichier) ... */}
-  </div>
+      <div className="uploadGrid">
         <div>
           <label>Titre</label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} style={input()} placeholder="Ex: Match vs X - Set 2" />
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            style={input()}
+            placeholder="Ex: Match vs X - Set 2"
+          />
         </div>
 
         <div>
           <label>Date</label>
           <input
-  type="date"
-  value={recordedAt}
-  onChange={(e) => setRecordedAt(e.target.value)}
-  style={{ ...input(), height: 44 }}
-/>
+            type="date"
+            value={recordedAt}
+            onChange={(e) => setRecordedAt(e.target.value)}
+            style={input()}
+          />
         </div>
 
         <div>
@@ -267,60 +297,64 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
         ) : (
           <div>
             <label>Set</label>
-            <input type="number" min={1} value={setNumber} onChange={(e) => setSetNumber(parseInt(e.target.value || "1", 10))} style={input()} />
+            <input
+              type="number"
+              min={1}
+              value={setNumber}
+              onChange={(e) => setSetNumber(parseInt(e.target.value || "1", 10))}
+              style={input()}
+            />
           </div>
         )}
 
-        <div style={{ gridColumn: "1 / -1" }}>
+        <div className="spanAll">
           <label>Notes</label>
-          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} style={textarea()} placeholder='Ex: "être plus actif sur balle favorable"' />
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            style={textarea()}
+            placeholder='Ex: "être plus actif sur balle favorable"'
+          />
         </div>
 
-        <div style={{ gridColumn: "1 / -1" }}>
+        <div className="spanAll">
           <label>Fichier vidéo</label>
-          <div
-  style={{
-    border: "1px dashed #ccc",
-    borderRadius: 10,
-    padding: 12,
-    textAlign: "center",
-    cursor: "pointer",
-  }}
->
-  <input
-    type="file"
-    accept="video/*"
-    onChange={(e) => setFile(e.target.files?.[0] || null)}
-    style={{ width: "100%" }}
-  />
-</div>
+          <div className="fileBox">
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              style={{ width: "100%" }}
+            />
+            <div style={{ marginTop: 6, fontSize: 12, opacity: 0.75 }}>
+              {file ? `Sélectionné : ${file.name}` : "Aucun fichier sélectionné"}
+            </div>
+          </div>
         </div>
       </div>
 
-{/* ===== Auth upload only ===== */}
-<div style={{ marginTop: 10, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-  {session ? (
-    <>
-      <div style={{ fontSize: 13, opacity: 0.8 }}>
-        Connecté : <b>{session.user.email}</b>
+      {/* Auth upload only */}
+      <div style={{ marginTop: 12, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        {session ? (
+          <>
+            <div style={{ fontSize: 13, opacity: 0.85 }}>
+              Connecté : <b>{session.user.email}</b>
+            </div>
+            <button onClick={onSignOut} style={btn(false)}>
+              Se déconnecter
+            </button>
+          </>
+        ) : (
+          <>
+            <div style={{ fontSize: 13, opacity: 0.85 }}>Pour uploader, tu dois te connecter avec Google.</div>
+            <button onClick={onSignIn} style={btn(true)}>
+              Se connecter (Google)
+            </button>
+          </>
+        )}
       </div>
-      <button onClick={onSignOut} style={btn(false)}>
-        Se déconnecter
-      </button>
-    </>
-  ) : (
-    <>
-      <div style={{ fontSize: 13, opacity: 0.8 }}>
-        Pour uploader, tu dois te connecter avec Google.
-      </div>
-      <button onClick={onSignIn} style={btn(true)}>
-        Se connecter (Google)
-      </button>
-    </>
-  )}
-</div>
 
-      <button onClick={handleUpload} disabled={busy} style={{ ...btn(true), marginTop: 12 }}>
+      <button onClick={handleUpload} disabled={!canUpload} style={{ ...btn(true), marginTop: 12, opacity: canUpload ? 1 : 0.6 }}>
         {busy ? "Upload..." : "Uploader"}
       </button>
     </div>
@@ -977,6 +1011,7 @@ function card() {
     padding: 16,
     background: "#fff",
     boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
+    overflow: "hidden",
   };
 }
 function input() {
@@ -986,6 +1021,7 @@ function input() {
     borderRadius: 10,
     border: "1px solid #ddd",
     outline: "none",
+    boxSizing: "border-box",
   };
 }
 function textarea() {
