@@ -152,7 +152,7 @@ async function signOut() {
 `}</style>
 
       <p style={{ marginTop: 0, opacity: 0.8 }}>
-        Upload + bibliothèque + lecture + markers (suppression/modification) + stats + timeline à droite.
+        Une appli pour passer le temps tu connooo
       </p>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
