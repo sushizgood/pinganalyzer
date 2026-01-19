@@ -48,6 +48,7 @@ const APP_CONFIG = {
   bgUrl: "/bg.png",
 }; 
 
+
 export default function App() {
   const [tab, setTab] = useState("UPLOAD"); // UPLOAD | LIBRARY
   const [videos, setVideos] = useState([]);
@@ -102,7 +103,7 @@ async function signOut() {
   style={{
     minHeight: "100vh",
     backgroundImage: `url('${BRAND.bgUrl}')`,
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
   }}
@@ -118,17 +119,9 @@ async function signOut() {
       overflowX: "hidden",
     }}
   >
-      <h1 style={{ margin: "8px 0" }}>BRAND.Ping Analyzer — V1 By_Sushizgood</h1>
+      <h1 style={{ margin: "8px 0" }}>Ping Analyzer — V1 By_Sushizgood</h1>
       <img src={BRAND.logoUrl} alt="Logo" style={{ height: 48, marginBottom: 12 }} />
 
-  <img
-  src="/logo.png"
-  alt="Logo"
-  style={{
-    height: 48,
-    marginBottom: 12,
-  }}
-/>    
 
 <style>{`
   *, *::before, *::after { box-sizing: border-box; }
