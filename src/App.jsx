@@ -11,8 +11,10 @@ const APP_CONFIG = {
   themes: [
     { key: "T1", label: "T1 : service coupé court + démarrage sur remise coupée longue" },
     { key: "T2", label: "T2 : service long → bloc milieu → accélération diagonale" },
-    { key: "T3", label: "T3 : remise sur service adverse (long actif / court court ou flick si haut)" },
-  ],
+    { key: "T3", label: "T3 : remise sur service adverse long → démarrage juste  " },
+    { key: "T4", label: "T4 : remise sur service adverse court et haut → flick)" },
+    { key: "T5", label: "T5 : remise sur service adverse court coupé → poussette longue)" }
+          ],
 
 
 
@@ -554,34 +556,49 @@ function VideoPlayer({ video }) {
 
   // Reco exercices en lien avec T1/T2/T3
   const drills = [
-    {
-      title: "T1 — Service coupé court + 1er démarrage rotation",
-      why: "Tu joues rotation : objectif = déclencher dès qu’une remise longue coupée arrive.",
-      how: [
-        "10 min : 1 service court coupé / 1 remise longue coupée imposée / 1 top rotation CD (sécurisé).",
-        "10 min : même chose mais placement alterné (diago puis ligne).",
-        "Règle : si la remise est mi-longue/molle → top rotation obligatoire (pas de poussette).",
-      ],
-    },
-    {
-      title: "T2 — Service long → bloc RV milieu → accélération",
-      why: "Tu bloques RV : objectif = bloc actif + replacer + accélérer sur balle suivante.",
-      how: [
-        "8 min : adversaire démarre CD, toi bloc RV milieu (objectif bas/placé).",
-        "8 min : sur la balle suivante, accélération diago CD (sans forcer).",
-        "Variante : 1 sur 2 tu bloques long ligne pour casser le rythme.",
-      ],
-    },
-    {
-      title: "T3 — Remise : long actif / court court / flick si haut",
-      why: "Objectif = prendre le jeu quand tu peux, surtout si service sortant/long.",
-      how: [
-        "10 min : partenaire varie court/long. Si long ou sortant → remise active (poussette tendue/flip/top porté).",
-        "Si court → remise courte obligatoire. Si haut → flick obligatoire.",
-        "Score : 1 point si tu fais le bon choix, 0 sinon (et tu notes un marker).",
-      ],
-    },
-  ];
+  {
+    title: "T1 — Service coupé court + démarrage rotation",
+    why: "Déclencher dès qu’une remise longue coupée arrive.",
+    how: [
+      "Service court coupé, remise longue coupée imposée, top rotation CD sécurisé",
+      "Varier placement : diago / ligne",
+      "Interdiction de poussette sur balle mi-longue",
+    ],
+  },
+  {
+    title: "T2 — Service long + bloc RV + accélération",
+    why: "Exploiter ton point fort en bloc RV puis finir le point.",
+    how: [
+      "Bloc RV actif milieu",
+      "Replacement immédiat",
+      "Accélération CD sur balle suivante",
+    ],
+  },
+  {
+    title: "T3 — Remise longue active",
+    why: "Prendre l’initiative dès que le service adverse est long.",
+    how: [
+      "Top rotation CD ou RV selon placement",
+      "Objectif sécurité avant vitesse",
+    ],
+  },
+  {
+    title: "T4 — Remise courte haute → flick",
+    why: "Punir immédiatement les services courts mal dosés.",
+    how: [
+      "Lecture hauteur avant effet",
+      "Flick sécurité avant vitesse",
+    ],
+  },
+  {
+    title: "T5 — Remise courte coupée → poussette longue",
+    why: "Éviter le jeu passif court-court.",
+    how: [
+      "Poussette longue tendue",
+      "Variation milieu / coude",
+    ],
+  },
+];
 
   // Plan 2 semaines (3 séances)
   const plan = [
