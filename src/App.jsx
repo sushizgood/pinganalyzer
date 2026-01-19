@@ -157,10 +157,10 @@ async function signOut() {
 
       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
         <button onClick={() => setTab("UPLOAD")} style={btn(tab === "UPLOAD")}>
-          Upload
+          Déposer
         </button>
         <button onClick={() => setTab("LIBRARY")} style={btn(tab === "LIBRARY")}>
-          Bibliothèque
+          Médias
         </button>
       </div>
 
