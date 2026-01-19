@@ -91,7 +91,7 @@ async function signOut() {
 
   return (
     <div style={{ fontFamily: "system-ui", maxWidth: 1200, margin: "0 auto", padding: 16 }}>
-      <h1 style={{ margin: "8px 0" }}>Ping Video Analyse — V3</h1>
+      <h1 style={{ margin: "8px 0" }}>Ping Video Analyse — V3 TEST</h1>
       <p style={{ marginTop: 0, opacity: 0.8 }}>
         Upload + bibliothèque + lecture + markers (suppression/modification) + stats + timeline à droite.
       </p>
@@ -127,7 +127,7 @@ async function signOut() {
   );
 }
 
-function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
+function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {n,pm
   const [file, setFile] = useState(null);
 
   // MODIFIABLE: métadonnées futures
