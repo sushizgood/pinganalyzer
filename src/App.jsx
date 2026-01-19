@@ -90,8 +90,34 @@ async function signOut() {
   }, []);
 
   return (
-    <div style={{ fontFamily: "system-ui", maxWidth: 1200, margin: "0 auto", padding: 16 }}>
-      <h1 style={{ margin: "8px 0" }}>Ping Video Analyse — V3 TEST</h1>
+    <div
+  style={{
+    fontFamily: "system-ui",
+    maxWidth: 1200,
+    margin: "0 auto",
+    padding: 16,
+    background: "#f6f7f9",
+    minHeight: "100vh",
+  }}
+>
+      <h1 style={{ margin: "8px 0" }}>Ping Video Analyse — V3 TEST_By_Sushizgood</h1>
+
+
+
+<style>{`
+  .layout {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 980px) {
+    .layout {
+      grid-template-columns: 380px 1fr;
+      align-items: start;
+    }
+  }
+`}</style>
+
       <p style={{ marginTop: 0, opacity: 0.8 }}>
         Upload + bibliothèque + lecture + markers (suppression/modification) + stats + timeline à droite.
       </p>
@@ -118,10 +144,11 @@ async function signOut() {
   />
 )}
       {tab === "LIBRARY" && (
-        <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: 16 }}>
-          <LibraryPanel videos={videos} selected={selected} onSelect={setSelected} />
-          <ViewerPanel video={selected} />
-        </div>
+        <div className="layout">
+  <LibraryPanel videos={videos} selected={selected} onSelect={setSelected} />
+  <ViewerPanel video={selected} />
+</div>
+
       )}
     </div>
   );
@@ -185,7 +212,24 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
     <div style={card()}>
       <h2 style={{ marginTop: 0 }}>Déposer une vidéo</h2>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: 10,
+  }}
+>
+  <style>{`
+    @media (min-width: 760px) {
+      .uploadGrid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  `}</style>
+
+  <div className="uploadGrid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+    {/* ... mets ici tous tes champs (Titre, Date, Type, Thème, Notes, Fichier) ... */}
+  </div>
         <div>
           <label>Titre</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} style={input()} placeholder="Ex: Match vs X - Set 2" />
@@ -193,7 +237,12 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
 
         <div>
           <label>Date</label>
-          <input type="date" value={recordedAt} onChange={(e) => setRecordedAt(e.target.value)} style={input()} />
+          <input
+  type="date"
+  value={recordedAt}
+  onChange={(e) => setRecordedAt(e.target.value)}
+  style={{ ...input(), height: 44 }}
+/>
         </div>
 
         <div>
@@ -229,7 +278,22 @@ function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
 
         <div style={{ gridColumn: "1 / -1" }}>
           <label>Fichier vidéo</label>
-          <input type="file" accept="video/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+          <div
+  style={{
+    border: "1px dashed #ccc",
+    borderRadius: 10,
+    padding: 12,
+    textAlign: "center",
+    cursor: "pointer",
+  }}
+>
+  <input
+    type="file"
+    accept="video/*"
+    onChange={(e) => setFile(e.target.files?.[0] || null)}
+    style={{ width: "100%" }}
+  />
+</div>
         </div>
       </div>
 
@@ -908,10 +972,11 @@ function btn(active) {
 }
 function card() {
   return {
-    border: "1px solid #eee",
-    borderRadius: 14,
-    padding: 12,
-    boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+    border: "1px solid #e6e8eb",
+    borderRadius: 16,
+    padding: 16,
+    background: "#fff",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
   };
 }
 function input() {
@@ -924,5 +989,10 @@ function input() {
   };
 }
 function textarea() {
-  return { ...input(), minHeight: 80, resize: "vertical" };
+  return {
+    ...input(),
+    minHeight: 60,
+    resize: "vertical",
+    lineHeight: "1.4",
+  };
 }
