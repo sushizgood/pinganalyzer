@@ -45,6 +45,33 @@ export default function App() {
   const [videos, setVideos] = useState([]);
   const [selected, setSelected] = useState(null);
 
+  // ===== Auth (uniquement pour uploader) =====
+const [session, setSession] = useState(null);
+
+useEffect(() => {
+  supabase.auth.getSession().then(({ data }) => {
+    setSession(data.session);
+  });
+
+  const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    setSession(newSession);
+  });
+
+  return () => sub.subscription.unsubscribe();
+}, []);
+
+async function signInWithGoogle() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: window.location.origin },
+  });
+  if (error) alert("Erreur login: " + error.message);
+}
+
+async function signOut() {
+  await supabase.auth.signOut();
+}
+
   async function loadVideos() {
     const { data, error } = await supabase
       .from("videos")
@@ -79,15 +106,17 @@ export default function App() {
       </div>
 
       {tab === "UPLOAD" && (
-        <UploadPanel
-          themes={APP_CONFIG.themes}
-          onUploaded={() => {
-            loadVideos();
-            setTab("LIBRARY");
-          }}
-        />
-      )}
-
+  <UploadPanel
+    themes={APP_CONFIG.themes}
+    session={session}
+    onSignIn={signInWithGoogle}
+    onSignOut={signOut}
+    onUploaded={() => {
+      loadVideos();
+      setTab("LIBRARY");
+    }}
+  />
+)}
       {tab === "LIBRARY" && (
         <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: 16 }}>
           <LibraryPanel videos={videos} selected={selected} onSelect={setSelected} />
@@ -98,7 +127,7 @@ export default function App() {
   );
 }
 
-function UploadPanel({ themes, onUploaded }) {
+function UploadPanel({ themes, onUploaded, session, onSignIn, onSignOut }) {
   const [file, setFile] = useState(null);
 
   // MODIFIABLE: métadonnées futures
