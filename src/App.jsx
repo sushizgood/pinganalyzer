@@ -103,9 +103,9 @@ async function signOut() {
   style={{
     minHeight: "100vh",
     backgroundImage: `url('${BRAND.bgUrl}')`,
-    backgroundSize: "contain",
-    backgroundPosition: "center",
-    backgroundAttachment: "fixed",
+    backgroundSize: "1200px auto",
+    backgroundPosition: "top center",
+    backgroundAttachment: "no-repeat",
   }}
 >
   <div
